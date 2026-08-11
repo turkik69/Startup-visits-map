@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>زيارات الشركات الناشئة — خريطة حقيقية</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101C3F; --navy2:#1A2B59; --navy-soft:#4A5C8A;
+    --gold:#B08D44; --gold-light:#D6BA7A; --gold-pale:#F1E7CD;
+    --cream:#FAF8F3;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Cairo',sans-serif; margin:0; background:var(--cream); color:#232630;}
+  header{background:linear-gradient(180deg,var(--navy),var(--navy2)); color:#fff; padding:20px 24px 16px; border-bottom:5px solid var(--gold);}
+  header h1{margin:0; font-size:1.5rem; font-weight:800;}
+  header p{margin:6px 0 0; color:var(--gold-light); font-weight:600; font-size:0.95rem;}
+  .toolbar{display:flex; align-items:center; gap:10px; padding:12px 24px; background:#fff; border-bottom:2px solid var(--gold-pale); flex-wrap:wrap;}
+  .tabs{display:flex; gap:8px; overflow-x:auto; flex:1;}
+  .tab{padding:9px 16px; border-radius:10px; border:2px solid var(--navy); background:#fff; color:var(--navy); font-family:'Cairo',sans-serif; font-weight:700; cursor:pointer; white-space:nowrap; font-size:0.9rem; transition:.15s;}
+  .tab.active{background:var(--navy); color:#fff;}
+  .tab:hover{background:var(--gold-pale);}
+  .printBtn{padding:9px 16px; border-radius:10px; border:2px solid var(--gold); background:var(--gold); color:#fff; font-family:'Cairo',sans-serif; font-weight:700; cursor:pointer; font-size:0.9rem; white-space:nowrap;}
+  .printBtn:hover{background:var(--gold-light); border-color:var(--gold-light);}
+  #map{height:56vh; min-height:400px; width:100%;}
+  .status{font-size:0.82rem; color:#6b6f7d; padding:8px 24px; background:#fff;}
+  .status.ok{color:#3c6e3c;}
+  .legend{padding:18px 24px 8px;}
+  .legend h2{color:var(--navy); font-size:1.15rem; margin:0 0 10px;}
+  table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 6px rgba(16,28,63,.1);}
+  th{background:var(--navy); color:#fff; padding:11px 14px; text-align:right; font-weight:700; font-size:0.92rem;}
+  td{padding:11px 14px; border-bottom:1px solid #eee; text-align:right; font-size:0.92rem;}
+  tr:nth-child(even) td{background:var(--gold-pale);}
+  .num-badge{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--navy); border:2px solid var(--gold); color:#fff; font-weight:800; font-size:0.85rem;}
+  .note{margin:18px 24px 28px; padding:14px 18px; background:var(--gold-pale); border:2px solid var(--gold); border-radius:12px; font-size:0.9rem; line-height:1.7;}
+  .note b{color:var(--navy);}
+  .leaflet-popup-content{font-family:'Cairo',sans-serif; direction:rtl; text-align:right;}
+  @media print{
+    .toolbar{display:none;}
+    #map{height:70vh;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>زيارات الشركات الناشئة</h1>
+  <p>خريطة حقيقية (OpenStreetMap) — بترقيم كل موقع ومسار القيادة الفعلي بين المواقع</p>
+</header>
+<div class="toolbar">
+  <div class="tabs" id="tabs"></div>
+  <button class="printBtn" onclick="window.print()">🖨️ طباعة / حفظ PDF لليوم الحالي</button>
+</div>
+<div id="map"></div>
+<div class="status" id="routeStatus"></div>
+<div class="legend">
+  <h2 id="dayTitle">ترتيب الزيارة</h2>
+  <table><thead><tr><th style="width:60px">#</th><th>الشركة</th><th>الموقع</th></tr></thead><tbody id="tbody"></tbody></table>
+</div>
+<div class="note"><b>ملاحظة:</b> MASARRAH (أدم، محافظة الداخلية) تبعد نحو ٢٠٠ كم عن مسقط — موصى بزيارتها بيوم مستقل خارج هذا الجدول، ولذلك غير مدرجة هنا.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const DAYS = [
+  { label:'الأحد', stops:[
+    {n:1,name:'SOOQ CARS',area:'غلا الصناعية، بوشر',lat:23.57260,lon:58.35720},
+    {n:2,name:'OSOS',area:'غلا الصناعية، بوشر',lat:23.57260,lon:58.35766},
+    {n:3,name:'Data Migration and Services',area:'غلا الصناعية، بوشر',lat:23.57228,lon:58.35785},
+    {n:4,name:'RQMNA',area:'غلا الصناعية، بوشر',lat:23.57197,lon:58.35766},
+    {n:5,name:'iON LLC',area:'غلا الصناعية، بوشر',lat:23.57197,lon:58.35720},
+  ]},
+  { label:'الاثنين', stops:[
+    {n:1,name:'MUSALIH',area:'غلا الصناعية، بوشر',lat:23.5722883,lon:58.3574297},
+    {n:2,name:'ESBAAR',area:'العذيبة الجنوبية، بوشر',lat:23.5864956,lon:58.3674118},
+    {n:3,name:'FASCANO',area:'العذيبة الشمالية، بوشر',lat:23.5961146,lon:58.3688379},
+    {n:4,name:'GLOBCOM',area:'الخوير الجنوبية، بوشر',lat:23.5844464,lon:58.4299039},
+  ]},
+  { label:'الثلاثاء', stops:[
+    {n:1,name:'TATWEER',area:'حي الصاروج، بوشر',lat:23.6088267,lon:58.4487278},
+    {n:2,name:'GODOBA',area:'القرم، بوشر',lat:23.6294872,lon:58.4956141},
+    {n:3,name:'IBN FIRNAS',area:'الوطية، بوشر',lat:23.6120126,lon:58.5133144},
+  ]},
+  { label:'الأربعاء', stops:[
+    {n:1,name:'BYANAT',area:'مرتفعات المطار، السيب',lat:23.58360,lon:58.29225},
+    {n:2,name:'DECOIL',area:'مرتفعات المطار، السيب',lat:23.58313,lon:58.29268},
+    {n:3,name:'AMAN',area:'الموالح الشمالية، السيب',lat:23.6220877,lon:58.2491088},
+    {n:4,name:'Data Mining',area:'الخوض / الجامعة، السيب',lat:23.62490,lon:58.19350},
+    {n:5,name:'ANKAA',area:'الخوض / الجامعة، السيب',lat:23.62490,lon:58.19395},
+    {n:6,name:'GISHUB',area:'الخوض / الجامعة، السيب',lat:23.62434,lon:58.19373},
+  ]},
+  { label:'الخميس', stops:[
+    {n:1,name:'INNOTECH',area:'واحة المعرفة، السيب',lat:23.56720,lon:58.17095},
+    {n:2,name:'ONSOR',area:'واحة المعرفة، السيب',lat:23.56720,lon:58.17059},
+    {n:3,name:'DARRBAK',area:'واحة المعرفة، السيب',lat:23.56683,lon:58.17077},
+    {n:4,name:'SMART DEVELOPER',area:'ولجات، السيب',lat:23.5659407,lon:58.1665587},
+    {n:5,name:'SAFAQAT',area:'المعبيلة الجنوبية، السيب',lat:23.6416625,lon:58.1118906},
+  ]},
+];
+
+let map, markersLayer, routeLayer, currentDay = 0, routeReqToken = 0;
+
+function numberedIcon(n){
+  return L.divIcon({
+    className:'',
+    html:'<div style="background:#101C3F;border:3px solid #B08D44;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Cairo,sans-serif;font-weight:800;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.4)">'+n+'</div>',
+    iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-16]
+  });
+}
+
+function renderTabs(){
+  const el = document.getElementById('tabs');
+  el.innerHTML = '';
+  DAYS.forEach((d,i)=>{
+    const b = document.createElement('button');
+    b.className = 'tab' + (i===currentDay ? ' active':'');
+    b.textContent = d.label;
+    b.onclick = ()=>showDay(i);
+    el.appendChild(b);
+  });
+}
+
+async function fetchRealRoute(stops){
+  const coords = stops.map(s=>s.lon+','+s.lat).join(';');
+  const url = 'https://router.project-osrm.org/route/v1/driving/'+coords+'?overview=full&geometries=geojson';
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('http '+res.status);
+  const data = await res.json();
+  if(!data.routes || !data.routes.length) throw new Error('no route');
+  return data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+}
+
+async function showDay(i){
+  currentDay = i;
+  renderTabs();
+  const day = DAYS[i];
+  markersLayer.clearLayers();
+  routeLayer.clearLayers();
+
+  const bounds = [];
+  day.stops.forEach(s=>{
+    L.marker([s.lat,s.lon], {icon:numberedIcon(s.n)})
+      .bindPopup('<b>'+s.n+'. '+s.name+'</b><br>'+s.area)
+      .addTo(markersLayer);
+    bounds.push([s.lat,s.lon]);
+  });
+  map.fitBounds(bounds, {padding:[60,60]});
+  if(bounds.length===1) setTimeout(()=>map.setZoom(16), 50);
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  day.stops.forEach(s=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td><span class="num-badge">'+s.n+'</span></td><td>'+s.name+'</td><td>'+s.area+'</td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('dayTitle').textContent = 'ترتيب الزيارة — ' + day.label;
+
+  const statusEl = document.getElementById('routeStatus');
+  statusEl.className = 'status';
+  if(day.stops.length < 2){ statusEl.textContent = 'موقع واحد فقط هذا اليوم — لا حاجة لمسار.'; return; }
+
+  const myToken = ++routeReqToken;
+  statusEl.textContent = '⏳ جارٍ حساب مسار القيادة الفعلي على الطرق...';
+  try{
+    const latlngs = await fetchRealRoute(day.stops);
+    if(myToken !== routeReqToken) return;
+    L.polyline(latlngs, {color:'#101C3F', weight:5, opacity:.85, lineJoin:'round'}).addTo(routeLayer);
+    statusEl.textContent = '✓ المسار محسوب فعليًا على شبكة الطرق (OSRM)';
+    statusEl.className = 'status ok';
+  }catch(e){
+    if(myToken !== routeReqToken) return;
+    const straight = day.stops.map(s=>[s.lat,s.lon]);
+    L.polyline(straight, {color:'#B08D44', weight:4, opacity:.85, dashArray:'9,7'}).addTo(routeLayer);
+    statusEl.textContent = 'تعذّر الوصول لخدمة المسارات الآن — عرض خط مستقيم بديل بين المواقع بنفس ترتيب الزيارة';
+  }
+}
+
+function initMap(){
+  map = L.map('map', {zoomControl:true});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  markersLayer = L.layerGroup().addTo(map);
+  routeLayer = L.layerGroup().addTo(map);
+  showDay(0);
+}
+initMap();
+</script>
+</body>
+</html>
