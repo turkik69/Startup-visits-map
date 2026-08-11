@@ -41,7 +41,11 @@
   th{background:var(--navy); color:#fff; padding:11px 14px; text-align:right; font-weight:700; font-size:0.92rem;}
   td{padding:11px 14px; border-bottom:1px solid #eee; text-align:right; font-size:0.92rem;}
   tr:nth-child(even) td{background:var(--gold-pale);}
-  .num-badge{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--navy); border:2px solid var(--gold); color:#fff; font-weight:800; font-size:0.85rem;}
+  .num-badge{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--navy); border:2px solid var(--gold); color:#fff; font-weight:800; font-size:0.85rem; text-decoration:none; cursor:pointer; transition:.15s;}
+  .num-badge:hover{background:var(--gold); border-color:var(--navy); transform:scale(1.12);}
+  a.num-badge:visited{color:#fff;}
+  .gmaps-btn{display:inline-block; margin-top:8px; padding:7px 14px; background:var(--navy); color:#fff !important; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.85rem; font-family:'Cairo',sans-serif;}
+  .gmaps-btn:hover{background:var(--gold-light);}
   .note{margin:18px 24px 28px; padding:14px 18px; background:var(--gold-pale); border:2px solid var(--gold); border-radius:12px; font-size:0.9rem; line-height:1.7;}
   .note b{color:var(--navy);}
   .leaflet-popup-content{font-family:'Cairo',sans-serif; direction:rtl; text-align:right;}
@@ -113,6 +117,10 @@ const DAYS = [
 
 let map, markersLayer, routeLayer, currentDay = 0, routeReqToken = 0;
 
+function gmapsUrl(lat, lon){
+  return 'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lon;
+}
+
 function numberedIcon(n){
   return L.divIcon({
     className:'',
@@ -152,8 +160,12 @@ async function showDay(i){
 
   const bounds = [];
   day.stops.forEach(s=>{
+    const url = gmapsUrl(s.lat, s.lon);
+    const popupHtml =
+      '<b>'+s.n+'. '+s.name+'</b><br>'+s.area+
+      '<br><a href="'+url+'" target="_blank" rel="noopener" class="gmaps-btn">📍 افتح في خرائط Google</a>';
     L.marker([s.lat,s.lon], {icon:numberedIcon(s.n)})
-      .bindPopup('<b>'+s.n+'. '+s.name+'</b><br>'+s.area)
+      .bindPopup(popupHtml)
       .addTo(markersLayer);
     bounds.push([s.lat,s.lon]);
   });
@@ -164,7 +176,8 @@ async function showDay(i){
   tbody.innerHTML = '';
   day.stops.forEach(s=>{
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td><span class="num-badge">'+s.n+'</span></td><td>'+s.name+'</td><td>'+s.area+'</td>';
+    const url = gmapsUrl(s.lat, s.lon);
+    tr.innerHTML = '<td><a class="num-badge" href="'+url+'" target="_blank" rel="noopener" title="افتح موقع '+s.name+' في خرائط Google">'+s.n+'</a></td><td>'+s.name+'</td><td>'+s.area+'</td>';
     tbody.appendChild(tr);
   });
   document.getElementById('dayTitle').textContent = 'ترتيب الزيارة — ' + day.label;
