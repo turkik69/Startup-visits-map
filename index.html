@@ -156,8 +156,8 @@
       <p>مرتّبة حسب القرب الجغرافي، بترتيب الزيارة اليومي</p>
       <div class="summary-bar">
         <span>عدد الشركات: <b>24</b></span>
-        <span>عدد الأيام: <b>8</b></span>
-        <span>الفترة: <b>الأحد إلى الأربعاء، أسبوعين متتاليين</b></span>
+        <span>عدد الأيام: <b>7</b></span>
+        <span>الفترة: <b>الاثنين ١٧ إلى الأربعاء ٢٦ أغسطس ٢٠٢٦</b></span>
       </div>
     </div>
     <div class="ministry-badge">
@@ -215,45 +215,43 @@ const MINISTRY_ICON_B64 = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAEAAElEQ
 })();
 
 const DAYS = [
-  { id:1, dayName:"الأحد", weekLabel:"الأسبوع الأول", date:"١٦ أغسطس ٢٠٢٦", color:"#1B2A4A", stops:[
-    {order:1, name:"ONSOR", lat:23.566748, lng:58.170546, note:"واحة المعرفة، كوم٥ / السيب", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=2179327864788679178", estimated:false, orig:20},
-    {order:2, name:"OSOS", lat:23.571535, lng:58.175293, note:"واحة المعرفة / السيب / مرياد", time:"11:30 ص", mapsUrl:"https://maps.google.com/?cid=10369484923704867048", estimated:false, orig:2},
-    {order:3, name:"RQMNA", lat:23.571527, lng:58.175286, note:"الخوض / واحة المعرفة / مرياد", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=11174446840681489627", estimated:false, orig:4}
+  { id:1, dayName:"الاثنين", weekLabel:"", date:"١٧ أغسطس ٢٠٢٦", color:"#1B2A4A", stops:[
+    {order:1, name:"ONSOR", lat:23.566748, lng:58.170546, note:"واحة المعرفة، كوم٥ / السيب", time:"9:00-10:15", mapsUrl:"https://maps.google.com/?cid=2179327864788679178", estimated:false, orig:20},
+    {order:2, name:"OSOS", lat:23.571535, lng:58.175293, note:"واحة المعرفة / السيب / مرياد", time:"10:45-12:00", mapsUrl:"https://maps.google.com/?cid=10369484923704867048", estimated:false, orig:2},
+    {order:3, name:"RQMNA", lat:23.571527, lng:58.175286, note:"الخوض / واحة المعرفة / مرياد", time:"12:15-1:30", mapsUrl:"https://maps.google.com/?cid=11174446840681489627", estimated:false, orig:4}
   ]},
-  { id:2, dayName:"الاثنين", weekLabel:"الأسبوع الأول", date:"١٧ أغسطس ٢٠٢٦", color:"#C9A24B", stops:[
-    {order:4, name:"SAFAQAT", lat:23.6564, lng:58.1834, note:"المعبيلة الجنوبية، جنب العريمي بوليفارد", time:"9:30 ص", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6564,58.1834", estimated:true, orig:23},
-    {order:5, name:"MASARRAH", lat:23.6316, lng:58.1984, note:"شارع الخوض التجاري، بناية سما الخوض", time:"11:30 ص", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6316,58.1984", estimated:true, orig:24},
-    {order:6, name:"SMART DEVELOPER", lat:23.615276, lng:58.202241, note:"الخوض٣، البناية ٥٤٠، ط١، م١٣", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=15424274463821089673", estimated:false, orig:21}
+  { id:2, dayName:"الثلاثاء", weekLabel:"", date:"١٨ أغسطس ٢٠٢٦", color:"#C9A24B", stops:[
+    {order:4, name:"SAFAQAT", lat:23.6564, lng:58.1834, note:"المعبيلة الجنوبية، جنب العريمي بوليفارد", time:"9:00-10:15", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6564,58.1834", estimated:true, orig:23},
+    {order:5, name:"MASARRAH", lat:23.6316, lng:58.1984, note:"شارع الخوض التجاري، بناية سما الخوض", time:"10:45-12:00", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6316,58.1984", estimated:true, orig:24},
+    {order:6, name:"SMART DEVELOPER", lat:23.615276, lng:58.202241, note:"الخوض٣، البناية ٥٤٠، ط١، م١٣", time:"12:30-1:45", mapsUrl:"https://maps.google.com/?cid=15424274463821089673", estimated:false, orig:21}
   ]},
-  { id:3, dayName:"الثلاثاء", weekLabel:"الأسبوع الأول", date:"١٨ أغسطس ٢٠٢٦", color:"#2F7A5E", stops:[
-    {order:7, name:"Data Mining", lat:23.614996, lng:58.203435, note:"الخوض / السيب", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=17784079852589152517", estimated:false, orig:14},
-    {order:8, name:"ANKAA", lat:23.613839, lng:58.212845, note:"الخوض، مبنى مزون سكوير", time:"11:30 ص", mapsUrl:"https://maps.google.com/?cid=2824878142707473833", estimated:false, orig:18},
-    {order:9, name:"GISHUB", lat:23.596071, lng:58.215016, note:"الموالح الجنوبية، مبنى المرام", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=18422962599291018965", estimated:false, orig:15}
+  { id:3, dayName:"الأربعاء", weekLabel:"", date:"١٩ أغسطس ٢٠٢٦", color:"#2F7A5E", stops:[
+    {order:7, name:"Data Mining", lat:23.614996, lng:58.203435, note:"الخوض / السيب", time:"8:30-9:45", mapsUrl:"https://maps.google.com/?cid=17784079852589152517", estimated:false, orig:14},
+    {order:8, name:"ANKAA", lat:23.613839, lng:58.212845, note:"الخوض، مبنى مزون سكوير", time:"10:15-11:30", mapsUrl:"https://maps.google.com/?cid=2824878142707473833", estimated:false, orig:18},
+    {order:9, name:"GISHUB", lat:23.596071, lng:58.215016, note:"الموالح الجنوبية، مبنى المرام", time:"11:45-1:00", mapsUrl:"https://maps.google.com/?cid=18422962599291018965", estimated:false, orig:15},
+    {order:10, name:"FASCANO", lat:23.600498, lng:58.242897, note:"الموالح الجنوبية", time:"1:15-2:30", mapsUrl:"https://maps.google.com/?cid=8271141515665725050", estimated:false, orig:8}
   ]},
-  { id:4, dayName:"الأربعاء", weekLabel:"الأسبوع الأول", date:"١٩ أغسطس ٢٠٢٦", color:"#A6425A", stops:[
-    {order:10, name:"FASCANO", lat:23.600498, lng:58.242897, note:"الموالح الجنوبية", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=8271141515665725050", estimated:false, orig:8},
-    {order:11, name:"DARRBAK", lat:23.619117, lng:58.256495, note:"شارع الموج", time:"11:30 ص", mapsUrl:"https://maps.google.com/?cid=8293619453944969068", estimated:false, orig:22},
-    {order:12, name:"AMAN", lat:23.620076, lng:58.258826, note:"الموالح الشمالية، شارع الموج", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=7554629312913737439", estimated:false, orig:16}
+  { id:4, dayName:"الأحد", weekLabel:"", date:"٢٣ أغسطس ٢٠٢٦", color:"#A6425A", stops:[
+    {order:11, name:"DARRBAK", lat:23.619117, lng:58.256495, note:"شارع الموج", time:"9:00-10:15", mapsUrl:"https://maps.google.com/?cid=8293619453944969068", estimated:false, orig:22},
+    {order:12, name:"AMAN", lat:23.620076, lng:58.258826, note:"الموالح الشمالية، شارع الموج", time:"10:45-12:00", mapsUrl:"https://maps.google.com/?cid=7554629312913737439", estimated:false, orig:16},
+    {order:13, name:"GODOBA", lat:23.60017, lng:58.38014, note:"العذيبة", time:"12:30-1:45", mapsUrl:"https://maps.google.com/?cid=16360268902690163015", estimated:false, orig:11}
   ]},
-  { id:5, dayName:"الأحد", weekLabel:"الأسبوع الثاني", date:"٢٣ أغسطس ٢٠٢٦", color:"#2E6F95", stops:[
-    {order:13, name:"DECOIL", lat:23.576158, lng:58.296779, note:"مرتفعات المطار / السيب", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=4648634808745154312", estimated:false, orig:17},
-    {order:14, name:"BYANAT", lat:23.578214, lng:58.298815, note:"مرتفعات المطار / السيب", time:"11:30 ص", mapsUrl:"https://maps.google.com/?cid=2031184514833825103", estimated:false, orig:13},
-    {order:15, name:"iON LLC", lat:23.581093, lng:58.335241, note:"غلا الصناعية / بوشر", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=15723197772148076528", estimated:false, orig:5}
+  { id:5, dayName:"الاثنين", weekLabel:"", date:"٢٤ أغسطس ٢٠٢٦", color:"#2E6F95", stops:[
+    {order:14, name:"DECOIL", lat:23.576158, lng:58.296779, note:"مرتفعات المطار / السيب", time:"8:30-9:45", mapsUrl:"https://maps.google.com/?cid=4648634808745154312", estimated:false, orig:17},
+    {order:15, name:"BYANAT", lat:23.578214, lng:58.298815, note:"مرتفعات المطار / السيب", time:"10:15-11:30", mapsUrl:"https://maps.google.com/?cid=2031184514833825103", estimated:false, orig:13},
+    {order:16, name:"iON LLC", lat:23.581093, lng:58.335241, note:"غلا الصناعية / بوشر", time:"12:00-1:15", mapsUrl:"https://maps.google.com/?cid=15723197772148076528", estimated:false, orig:5},
+    {order:17, name:"INNOTECH", lat:23.571909, lng:58.339622, note:"غلا الصناعية", time:"1:30-2:45", mapsUrl:"https://maps.google.com/?cid=16664926526295978548", estimated:false, orig:19}
   ]},
-  { id:6, dayName:"الاثنين", weekLabel:"الأسبوع الثاني", date:"٢٤ أغسطس ٢٠٢٦", color:"#7A5C9E", stops:[
-    {order:16, name:"INNOTECH", lat:23.571909, lng:58.339622, note:"غلا الصناعية", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=16664926526295978548", estimated:false, orig:19},
-    {order:17, name:"SOOQ CARS", lat:23.572288, lng:58.35743, note:"غلا الصناعية / بوشر", time:"11:30 ص", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.572288,58.35743", estimated:true, orig:1},
-    {order:18, name:"MUSALIH", lat:23.573288, lng:58.35843, note:"غلا الصناعية، بجانب إلنجي", time:"1:30 م", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.573288,58.35843", estimated:true, orig:7}
+  { id:6, dayName:"الثلاثاء", weekLabel:"", date:"٢٥ أغسطس ٢٠٢٦", color:"#7A5C9E", stops:[
+    {order:18, name:"SOOQ CARS", lat:23.572288, lng:58.35743, note:"غلا الصناعية / بوشر", time:"9:00-10:15", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.572288,58.35743", estimated:true, orig:1},
+    {order:19, name:"MUSALIH", lat:23.573288, lng:58.35843, note:"غلا الصناعية، بجانب إلنجي", time:"10:45-12:00", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.573288,58.35843", estimated:true, orig:7},
+    {order:20, name:"RIHAL (Data Migration and Services)", lat:23.58342, lng:58.367587, note:"غلا الصناعية / بوشر", time:"12:30-1:45", mapsUrl:"https://maps.google.com/?cid=10100508700981090066", estimated:false, orig:3}
   ]},
-  { id:7, dayName:"الثلاثاء", weekLabel:"الأسبوع الثاني", date:"٢٥ أغسطس ٢٠٢٦", color:"#C1652E", stops:[
-    {order:19, name:"RIHAL (Data Migration and Services)", lat:23.58342, lng:58.367587, note:"غلا الصناعية / بوشر", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=10100508700981090066", estimated:false, orig:3},
-    {order:20, name:"GODOBA", lat:23.60017, lng:58.38014, note:"العذيبة", time:"11:30 ص", mapsUrl:"https://maps.google.com/?cid=16360268902690163015", estimated:false, orig:11},
-    {order:21, name:"ESBAAR", lat:23.596689, lng:58.428339, note:"الخوير", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=151324147504774591", estimated:false, orig:6}
-  ]},
-  { id:8, dayName:"الأربعاء", weekLabel:"الأسبوع الثاني", date:"٢٦ أغسطس ٢٠٢٦", color:"#4A4A68", stops:[
-    {order:22, name:"GLOBCOM", lat:23.589384, lng:58.430506, note:"الخوير الجنوبية / بوشر", time:"9:30 ص", mapsUrl:"https://maps.google.com/?cid=18144253601025453855", estimated:false, orig:9},
-    {order:23, name:"TATWEER", lat:23.6081, lng:58.4447, note:"حي الصاروج، مقابل الغراند حياة مسقط (سابقاً حياة ريجنسي)", time:"11:30 ص", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6081,58.4447", estimated:true, orig:12},
-    {order:24, name:"IBN FIRNAS", lat:23.596824, lng:58.448334, note:"الخوير", time:"1:30 م", mapsUrl:"https://maps.google.com/?cid=18242655285177216581", estimated:false, orig:10}
+  { id:7, dayName:"الأربعاء", weekLabel:"", date:"٢٦ أغسطس ٢٠٢٦", color:"#C1652E", stops:[
+    {order:21, name:"ESBAAR", lat:23.596689, lng:58.428339, note:"الخوير", time:"8:30-9:45", mapsUrl:"https://maps.google.com/?cid=151324147504774591", estimated:false, orig:6},
+    {order:22, name:"GLOBCOM", lat:23.589384, lng:58.430506, note:"الخوير الجنوبية / بوشر", time:"10:15-11:30", mapsUrl:"https://maps.google.com/?cid=18144253601025453855", estimated:false, orig:9},
+    {order:23, name:"IBN FIRNAS", lat:23.596824, lng:58.448334, note:"الخوير", time:"1:30-2:45", mapsUrl:"https://maps.google.com/?cid=18242655285177216581", estimated:false, orig:10},
+    {order:24, name:"TATWEER", lat:23.6081, lng:58.4447, note:"حي الصاروج، مقابل الغراند حياة مسقط (سابقاً حياة ريجنسي)", time:"12:00-1:15", mapsUrl:"https://www.google.com/maps/search/?api=1&query=23.6081,58.4447", estimated:true, orig:12}
   ]}
 ];
 
@@ -331,7 +329,7 @@ function render(dayId){
   const legendBox = document.getElementById('legendBox');
   if (dayId === 'all'){
     legendBox.classList.add('show');
-    legendBox.innerHTML = DAYS.map(d=>`<div class="legend-row"><span class="dot" style="background:${d.color}"></span>${d.dayName} (${d.weekLabel==='الأسبوع الأول'?'١':'٢'})</div>`).join('');
+    legendBox.innerHTML = DAYS.map(d=>`<div class="legend-row"><span class="dot" style="background:${d.color}"></span>${d.dayName} ${d.date}</div>`).join('');
   } else {
     legendBox.classList.remove('show');
   }
@@ -344,7 +342,7 @@ function renderList(dayId, markerRefs){
   const daysToShow = dayId === 'all' ? DAYS : DAYS.filter(d => d.id === dayId);
   const heading = dayId === 'all'
     ? `كل الشركات (٢٤) — مرتّبة حسب اليوم`
-    : `${daysToShow[0].dayName} — ${daysToShow[0].date} (${daysToShow[0].weekLabel})`;
+    : `${daysToShow[0].dayName} — ${daysToShow[0].date}`;
 
   let html = `<div class="list-heading">${heading}</div>`;
   daysToShow.forEach(day=>{
@@ -387,8 +385,8 @@ function buildTabs(){
   const nav = document.getElementById('dayTabs');
   let html = `<button class="tab active" data-id="all"><span class="dot" style="background:#C9A24B"></span>الكل (٢٤)</button>`;
   DAYS.forEach(d=>{
-    const weekNo = d.weekLabel === 'الأسبوع الأول' ? '١' : '٢';
-    html += `<button class="tab" data-id="${d.id}"><span class="dot" style="background:${d.color}"></span>${d.dayName} ${weekNo}</button>`;
+    const dayNum = d.date.split(' ')[0];
+    html += `<button class="tab" data-id="${d.id}"><span class="dot" style="background:${d.color}"></span>${d.dayName} ${dayNum}</button>`;
   });
   nav.innerHTML = html;
   nav.querySelectorAll('.tab').forEach(tab=>{
